@@ -46,6 +46,7 @@ class xpowerHelp(Screen):
 	</screen>"""
 
 	def __init__(self, session, plugin_path):
+		self.skin_path = plugin_path
 		Screen.__init__(self, session)
 
 		self["key_red"] = Button(_("Close"))
@@ -104,9 +105,10 @@ class xpowerHelp(Screen):
 		text =  "\t" + _("Setup") + ":" + l1
 		text += _("Linux") + l2
 		text += _("- install telnetd with:") + "  " + ("sudo apt-get install telnetd") + l2
-		text += _("Windows 7") + l2
+		text += _("Windows 7/8") + l2
 		text += _("- enable the Telnet Server") + l1
-		text += _("- set Telnet server service to Automatic and run it") + l2
+		text += _("- set Telnet server service to Automatic and run it") + l1
+		text += _("- for Win8 enable ping (Firewall-Adwanced settings-Inbound Rules ... File and Printer Sharing (Echo Request - ICMPv4/6-In) to Yes") + l2
 		text += _("Windows XP") + l2
 		text += _("- set Telnet in Services to Automatic and run it") + l1 
 		text += _("- there in Firewall add tcp port 23 for telnet") + l2

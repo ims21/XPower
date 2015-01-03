@@ -25,12 +25,13 @@ from xpoweredit import xpowerEdit
 from xpowerhlp import xpowerHelp
 
 # Global
-version = "1.52"
+version = "1.56"
 
 OS_XP = "0"
 OS_WIN7 = "1"
 OS_LINUX = "2"
 OS_RPC= "5"
+OS_WIN8 = "3"
 
 SHUTDOWN = "0"
 SUSPEND = "1"
@@ -39,9 +40,9 @@ HIBERNATE = "2"
 class xpowerSummary(Screen):
 	skin = """
 	<screen position="0,0" size="96,64">
-		<widget source="title" render="Label" position="0,0" size="96,12" font="FdLcD;12" halign="left" foregroundColor="lightyellow" />
-		<widget source="pcname" render="Label" position="0,12" size="200,40" font="FdLcD;40" halign="left" valign="center" foregroundColor="white"/>
-		<widget source="bouquet" render="Label" position="0,52" size="96,12" font="FdLcD;12" halign="left" foregroundColor="lightyellow"/>
+		<widget source="title" render="Label" position="0,0" size="96,12" font="FdLcD;12" halign="left" foregroundColor="#00ccc040" />
+		<widget source="pcname" render="Label" position="0,12" size="200,40" font="FdLcD;40" halign="left" valign="center" foregroundColor="#00f0f0f0"/>
+		<widget source="bouquet" render="Label" position="0,52" size="96,12" font="FdLcD;12" halign="left" foregroundColor="#00ccc040"/>
 	</screen>"""
 
 	def __init__(self, session, parent):
@@ -67,7 +68,7 @@ class xpowerSummary(Screen):
 
 class xpower(Screen, HelpableScreen):
 	skin = """
-	<screen position="center,center" size="560,420" title="XPower" >
+	<screen position="center,center" size="560,430" title="XPower" >
 
 		<ePixmap name="red"    position="0,0"   zPosition="2" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
 		<ePixmap name="green"  position="140,0" zPosition="2" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
@@ -79,28 +80,28 @@ class xpower(Screen, HelpableScreen):
 		<widget name="key_yellow" position="280,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 		<widget name="key_blue" position="420,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 
-		<widget source="config" render="Listbox" position="10,40" size="545,350" scrollbarMode="showOnDemand">
+		<widget source="config" render="Listbox" position="10,40" size="545,360" scrollbarMode="showOnDemand">
 			<convert type="TemplatedMultiContent">
 				{"template": [
-						MultiContentEntryPixmapAlphaTest(pos = (15, 1), size = (48, 48), png = 0), # index 0 is the PC pixmap (for pixmap it is png= )
-						MultiContentEntryText(pos = (90, 9), size = (120, 35), font=0, flags = RT_HALIGN_LEFT, text = 1), # index 1 is the Name (for text it is text= )
-						MultiContentEntryPixmapAlphaTest(pos = (220, 5), size = (40, 40), png = 2), # index 2 is the system pixmap
+						MultiContentEntryPixmapAlphaTest(pos = (15, 2), size = (48, 38), png = 0), # index 0 is the PC pixmap (for pixmap it is png= )
+						MultiContentEntryText(pos = (90, 6), size = (120, 35), font=0, flags = RT_HALIGN_LEFT, text = 1), # index 1 is the Name (for text it is text= )
+						MultiContentEntryPixmapAlphaTest(pos = (220, 2), size = (40, 40), png = 2), # index 2 is the system pixmap
 						MultiContentEntryText(pos = (290, 3), size = (250, 20), font=1, flags = RT_HALIGN_LEFT, text = 3), # index 3 is the IP
-						MultiContentEntryText(pos = (290, 28), size = (250, 20), font=1, flags = RT_HALIGN_LEFT, text = 4), # index 4 is the MAC
+						MultiContentEntryText(pos = (290, 23), size = (250, 20), font=1, flags = RT_HALIGN_LEFT, text = 4), # index 4 is the MAC
 						],
 					"fonts": [gFont("Regular", 30),gFont("Regular", 18)],
-					"itemHeight": 50
+					"itemHeight": 45
 				}
 			</convert>
 		</widget>
 
-		<ePixmap pixmap="skin_default/div-h.png" position="0,396" zPosition="1" size="560,2" />
-		<ePixmap alphatest="on" pixmap="skin_default/icons/clock.png" position="480,403" size="14,14" zPosition="3"/>
-		<widget font="Regular;18" halign="left" position="505,400" render="Label" size="55,20" source="global.CurrentTime" transparent="1" valign="center" zPosition="3">
+		<ePixmap pixmap="skin_default/div-h.png" position="0,406" zPosition="1" size="560,2" />
+		<ePixmap alphatest="on" pixmap="skin_default/icons/clock.png" position="480,413" size="14,14" zPosition="3"/>
+		<widget font="Regular;18" halign="left" position="505,410" render="Label" size="55,20" source="global.CurrentTime" transparent="1" valign="center" zPosition="3">
 			<convert type="ClockToText">Default</convert>
 		</widget>
-		<ePixmap pixmap="skin_default/buttons/key_menu.png" position="430,398" zPosition="3" size="35,25" alphatest="on" transparent="1" />
-		<widget name="statusbar" position="10,400" size="420,20" font="Regular;18" />
+		<ePixmap pixmap="skin_default/buttons/key_menu.png" position="430,408" zPosition="3" size="35,25" alphatest="on" transparent="1" />
+		<widget name="statusbar" position="10,410" size="420,20" font="Regular;18" />
 
 	</screen>"""
 
@@ -120,7 +121,7 @@ class xpower(Screen, HelpableScreen):
 
 		self.list = []
 
-                self["config"] = List(self.list)
+		self["config"] = List(self.list)
 		self["statusbar"] = Label()
 		self.text = _("User defined...")
 
@@ -143,6 +144,9 @@ class xpower(Screen, HelpableScreen):
 			"hibernate": (self.hibernate, _("Hibernate")),
 			}, -1)
 
+		self.ipStr = _("IP:")+" "
+		self.macStr = _("MAC:")+" "
+
 		self.menu = []
 		self.menu.append((_("WakeUp"),"wakeup"))
 		self.menu.append((_("Suspend"),"suspend"))
@@ -150,8 +154,6 @@ class xpower(Screen, HelpableScreen):
 		self.menu.append((_("Reboot"),"reboot"))
 		self.menu.append((_("Hibernate"),"hibernate"))
 		self.menu.append((_("Abort shutdown / reboot"),"abort"))
-
-		self.net_rpc = os.system("net rpc | grep 'net rpc' > /dev/null 2>&1")
 
 		self.pcinfo = None
 		self.showPCsList()
@@ -168,7 +170,7 @@ class xpower(Screen, HelpableScreen):
 	# for summary (+ changedEntry):
 	def getCurrentEntry(self):
 		current = self["config"].getCurrent()
-                return ixpowerUt.remotepc[current[1]]['name']
+		return ixpowerUt.remotepc[current[1]]['name']
 	def getCurrentValue(self):
 		self.statusbarText()
 		return _("BouqDn: %s") % (self.text)
@@ -195,7 +197,7 @@ class xpower(Screen, HelpableScreen):
 	def statusbarText(self):
 		self.text = _("Shutdown")
 		current = self["config"].getCurrent()
-                if current:
+		if current:
 			self.pcinfo = ixpowerUt.remotepc[current[1]]
 			
 			if self.pcinfo['system'] != OS_RPC:
@@ -215,19 +217,20 @@ class xpower(Screen, HelpableScreen):
 				self.hibernate()
 			else:
 				self.shutdown()
-		
+
 	def getItemParams(self, pcinfo):
 		ip = pcinfo['ip']
-                user = pcinfo['user']
-                passwd = pcinfo['passwd']
+		user = pcinfo['user']
+		passwd = pcinfo['passwd']
 		os = pcinfo['system']
 		mac = pcinfo['mac']
 		return ( os, ip, user, passwd, mac )
 
 	def xpnet(self):
-		if self.pcinfo['system'] == OS_RPC and self.net_rpc != 0:
-			self.message(_("Command \"net\" is not installed\noption \"XP NET RPC\" does not work..."),10,"error")
-			return False
+		if self.pcinfo['system'] == OS_RPC:
+			if os.system("net rpc | grep 'net rpc' > /dev/null 2>&1") != 0:
+				self.message(_("Command \"net\" is not installed\noption \"XP NET RPC\" does not work..."),10,"error")
+				return False
 		return True
 
 	def isAlive(self):
@@ -290,11 +293,10 @@ class xpower(Screen, HelpableScreen):
 		oldCount = self["config"].count()
 
 		list = []
-                remotepc = ixpowerUt.getPCsList()
-                for name in remotepc.keys():
-			pcentry = ixpowerUt.remotepc[name]
-                        list.append(self.buildPCViewItem(pcentry))
-		list.sort()
+		remotepc = ixpowerUt.getPCsList()
+		for name in remotepc.keys():
+			list.append(self.buildPCViewItem(ixpowerUt.remotepc[name]))
+		list.sort(key = lambda x: x[1])
 		self["config"].setList(list)
 
 		newCount = self["config"].count()
@@ -315,13 +317,14 @@ class xpower(Screen, HelpableScreen):
 				self["config"].setIndex(oldIndex)
 
 	def buildPCViewItem(self, entry):
-                pc = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, self.ppath+"/img/host.png"))
-                name = entry["name"]
-		ip = _("IP:") + " " + str(entry["ip"])
-                mac = _("MAC:") + " " + str(entry["mac"])
+		pc = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, self.ppath+"/img/host.png"))
+		ip = "".join((self.ipStr,str(entry["ip"])))
+		mac = "".join((self.macStr,str(entry["mac"])))
 		system = entry["system"]
 		if system == OS_WIN7:
 			logo = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, self.ppath+"/img/win.png"))
+		elif system == OS_WIN8:
+			logo = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, self.ppath+"/img/win8.png"))
 		elif system == OS_LINUX:
 			logo = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, self.ppath+"/img/lin.png"))
 		elif system == OS_RPC:
@@ -329,16 +332,16 @@ class xpower(Screen, HelpableScreen):
 		else:
 			logo = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, self.ppath+"/img/xp.png"))
 		# return displayed items
-                return( pc, name, logo, ip, mac )
+		return( pc, entry["name"], logo, ip, mac )
 
-        def keyOK(self):
-                self.session.openWithCallback(self.editClosed, xpowerEdit, self.pcinfo, self.net_rpc)
+	def keyOK(self):
+		self.session.openWithCallback(self.editClosed, xpowerEdit, self.pcinfo)
 
-        def editClosed(self):
+	def editClosed(self):
 		if ixpowerUt.configActualized:
-                        self.showPCsList()
+			self.showPCsList()
 
-        def deleteItem(self):
+	def deleteItem(self):
 		self.retValue=self.pcinfo['name']
 		self.session.openWithCallback(self.removeData, MessageBox, _("Do You want remove PC: %s?") % (self.pcinfo['name']), type = MessageBox.TYPE_YESNO)
 
@@ -390,6 +393,8 @@ class xpower(Screen, HelpableScreen):
 	def shutdownIP(self, p):
 		if p[0] == OS_WIN7:
 			self.telnet(p,"shutdown /s /t 10")
+		elif p[0] == OS_WIN8:
+			self.telnet(p,"shutdown /s /f /t 10")
 		elif p[0] == OS_LINUX:
 			self.telnet(p,"sudo shutdown -P now")
 		elif p[0] == OS_RPC:
@@ -400,6 +405,8 @@ class xpower(Screen, HelpableScreen):
 	#abort
 	def abortIP(self, p):
 		if p[0] == OS_WIN7:
+			self.telnet(p,"shutdown /a")
+		elif p[0] == OS_WIN8:
 			self.telnet(p,"shutdown /a")
 		elif p[0] == OS_LINUX:
 			self.telnet(p,"sudo shutdown -c")
@@ -412,6 +419,8 @@ class xpower(Screen, HelpableScreen):
 	def rebootIP(self, p):
 		if p[0] == OS_WIN7:
 			self.telnet(p,"shutdown /r /t 10")
+		elif p[0] == OS_WIN8:
+			self.telnet(p,"shutdown /r /f /t 10")
 		elif p[0] == OS_LINUX:
 			self.telnet(p,"sudo shutdown -r now")
 		elif p[0] == OS_RPC:
@@ -423,6 +432,8 @@ class xpower(Screen, HelpableScreen):
 	def suspendIP(self, p):
 		if p[0] == OS_WIN7:
 			self.telnet(p,"rundll32.exe PowrProf.dll,SetSuspendState", "powercfg -h off", "powercfg -h off")
+		elif p[0] == OS_WIN8:
+			self.telnet(p,"shutdown /h")
 		elif p[0] == OS_LINUX:
 			self.telnet(p,"sudo pm-suspend --quirk-s3-mode")
 		elif p[0] == OS_RPC:
@@ -434,6 +445,8 @@ class xpower(Screen, HelpableScreen):
 	def hibernateIP(self, p):
 		if p[0] == OS_WIN7:
 			self.telnet(p,"rundll32.exe PowrProf.dll,SetSuspendState Hibernate", "powercfg -h on", "powercfg -h on")
+		elif p[0] == OS_WIN8:
+			self.telnet(p,"shutdown /h")
 		elif p[0] == OS_LINUX:
 			self.telnet(p,"sudo pm-hibernate")
 		elif p[0] == OS_RPC:
@@ -450,7 +463,7 @@ class xpower(Screen, HelpableScreen):
 			self.message(_("Connection failed... %s" % (e)),4)
 			print "[xpower plugin] Error telnet:", e
 		else:
-			#telnet.set_debuglevel(1)
+#			telnet.set_debuglevel(1)
 			if p[0] == OS_LINUX:
 				try: 
 					telnet.read_until('ogin: ',10)
@@ -466,9 +479,9 @@ class xpower(Screen, HelpableScreen):
 				self.closeLinTelnet(telnet)
 			else:
 				try:
-					telnet.read_until('ogin: ',10)
+					telnet.read_until('ogin: ',5)
 					telnet.write(user + "\r\n")
-					telnet.read_until('assword: ',10)
+					telnet.read_until('assword: ',5)
 					telnet.write(passwd + "\r\n")
 					telnet.read_until('>',5)
 					if pre != "":
@@ -478,11 +491,10 @@ class xpower(Screen, HelpableScreen):
 					if post != "":
 						telnet.write("%s\r\n" % (post))
 					telnet.write("exit\r\n")
-				
-					telnet.read_until('? ',1)
-					telnet.write("N\r\n")
+					telnet.read_until('',1)
 				except EOFError, e:
 					"[xpower plugin] Error telnet:", e
+
 				self.closeLinTelnet(telnet)
 
 #	def closeWinTelnet(self, telnet):
